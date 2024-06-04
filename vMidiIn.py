@@ -1,5 +1,6 @@
 import rtmidi
 from time import sleep
+from Networking.client import Client
 
 def print_message(midi):
     print(midi)
@@ -14,10 +15,12 @@ def print_message(midi):
 
 class MidiIn:
     def __init__(self):
+        self.client = Client()
         self.midiin = rtmidi.RtMidiIn()
         self.ports = range(self.midiin.getPortCount())
 
     def run(self):
+        self.client.start()
         self.ports = range(self.midiin.getPortCount())
         if self.ports:
             for i in self.ports:
@@ -27,9 +30,13 @@ class MidiIn:
             while True:
                 m = self.midiin.getMessage(250)  # some timeout in ms
                 if m:
-                    print_message(m)
+                    self.handle_message(m)
         else:
             print('NO MIDI INPUT PORTS!')
+
+    def handle_message(self, msg):
+        print_message(msg)
+        self.client.send(msg)
 
 
 MidiIn().run()
