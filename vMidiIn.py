@@ -14,10 +14,11 @@ def print_message(midi):
 
 
 class MidiIn:
-    def __init__(self):
+    def __init__(self, midi_port=0):
         self.client = Client()
         self.midiin = rtmidi.RtMidiIn()
         self.ports = range(self.midiin.getPortCount())
+        self.midiPort = midi_port
 
     def run(self):
         self.client.start()
@@ -26,7 +27,7 @@ class MidiIn:
             for i in self.ports:
                 print(self.midiin.getPortName(i))
             print("Opening port 0!")
-            self.midiin.openPort(0)
+            self.midiin.openPort(self.midiPort)
             while True:
                 m = self.midiin.getMessage(250)  # some timeout in ms
                 if m:
@@ -39,8 +40,5 @@ class MidiIn:
         self.client.send(msg)
 
 
-MidiIn().run()
-
-
-
-
+if __name__ == '__main__':
+    MidiIn(1).run()
