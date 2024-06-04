@@ -81,12 +81,9 @@ out = MidiOutServer("loopMIDI Port")
 
 out.start()
 
-# TODO: Client reading MIDI Input
-# TODO: Client sending to server
-# TODO: server receive msg
-# TODO: Server send msg to MIDI Output
-
 # TODO: messages for velocity
+# TODO: improve protocol to support stream of messages (msg0;msg1;msg2...)
+# TODO: add local config for ip + port
 
 
 
