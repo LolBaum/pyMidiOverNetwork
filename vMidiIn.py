@@ -13,9 +13,9 @@ def print_message(midi):
 def midi_to_string(midi):
     s = ""
     if midi.isNoteOn():
-        s = f'ON,{midi.getMidiNoteName(midi.getNoteNumber())},{midi.getVelocity()}'
+        s = f'ON,{midi.getNoteNumber()},{midi.getVelocity()}'
     elif midi.isNoteOff():
-        s = f'OFF,{midi.getMidiNoteName(midi.getNoteNumber())},0'
+        s = f'OFF,{midi.getNoteNumber()},0'
     elif midi.isController():
         s = f'CONTROLLER,{midi.getControllerNumber()},{midi.getControllerValue()}'
     else:
