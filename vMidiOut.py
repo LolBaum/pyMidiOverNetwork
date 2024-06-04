@@ -1,14 +1,16 @@
 import rtmidi
 from rtmidi.randomout import RandomOut
 from time import sleep
+from Networking.server import Server
 
 
 # based on https://github.com/jaakkopee/neuronSeq nnmidiout.py
-class MidiOut:
-    def __init__(self):
+class MidiOutServer:
+    def __init__(self, portName):
+        self.server = Server(callback=self.send_message)
 
         # Name of the MIDI port in use
-        self.portName = "loopMIDI Port"
+        self.portName = portName
 
         self.midiOut = rtmidi.RtMidiOut()
         available_ports_count = self.midiOut.getPortCount()
@@ -25,6 +27,8 @@ class MidiOut:
         else:
             print("failed to open port")
 
+        self.server.start()
+
     def send_message(self, msg):
         self.midiOut.sendMessage(msg)
 
@@ -32,12 +36,11 @@ class MidiOut:
         del self.midiOut
 
 
-out = MidiOut()
 
-rtmidi.MidiMessage()
-out.send_message(rtmidi.MidiMessage.noteOn(1, 60, 100))
-sleep(2)
-out.send_message(rtmidi.MidiMessage.noteOff(1, 60))
+
+out = MidiOutServer("loopMIDI Port")
+
+out.start()
 
 # TODO: Client reading MIDI Input
 # TODO: Client sending to server
