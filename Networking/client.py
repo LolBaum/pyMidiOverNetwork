@@ -24,7 +24,7 @@ class Client:
     def start(self, ip=None, port=None):
         if ip:
             self.ip = ip
-        if self.port:
+        if port:
             self.port = port
         self.addr = (self.ip, self.port)
         self.socket.connect(self.addr)
