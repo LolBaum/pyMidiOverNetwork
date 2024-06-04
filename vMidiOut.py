@@ -2,12 +2,35 @@ import rtmidi
 from rtmidi.randomout import RandomOut
 from time import sleep
 from Networking.server import Server
+import logging
 
 
-# based on https://github.com/jaakkopee/neuronSeq nnmidiout.py
+def midi_from_string(self, string):
+    content = string.split(",")
+    if len(content) != 3:
+        logging.error("message length has wrong format, msg=" + string)
+    midi_type = content[0]
+
+    midi_value = int(content[1])
+    midi_channel = int(content[2])
+
+    midi = None
+
+    if midi_type == "ON":
+        midi = rtmidi.MidiMessage.noteOn(1, midi_value, midi_channel)
+    elif midi_type == "OFF":
+        midi = rtmidi.MidiMessage.noteOff(1, midi_value)
+    if midi_type == "CONTROLLER":
+        midi = rtmidi.MidiMessage.controllerEvent(1, midi_value, midi_channel)
+    else:
+        logging.error("message type not recognized: msg=" + string)
+
+    return midi
+
+
 class MidiOutServer:
     def __init__(self, portName):
-        self.server = Server(callback=self.send_message)
+        self.server = Server(ip="10.10.5.49", callback=self.handle_message)
 
         # Name of the MIDI port in use
         self.portName = portName
@@ -31,6 +54,14 @@ class MidiOutServer:
 
     def send_message(self, msg):
         self.midiOut.sendMessage(msg)
+
+    def handle_message(self, msg):
+        print(msg)
+        print(midi_from_string(msg))
+        #self.send_message(msg)
+
+
+
 
     def cleanup(self):
         del self.midiOut
