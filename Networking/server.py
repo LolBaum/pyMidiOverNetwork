@@ -6,6 +6,7 @@ import threading
 import sys
 import logging
 from logging import config
+import traceback
 
 config.fileConfig("configs/loggingInfo.conf")
 MAX_DATA_LENGTH = 8064  # TODO add header_len
@@ -43,11 +44,12 @@ class Server:
                 msg = conn.recv(MAX_DATA_LENGTH)
                 if msg:
                     logging.info(f"{addr} | {msg}")
-                    self.callback(msg)
+                    self.callback(msg.decode('utf-8'))
 
             except Exception as e:
                 logging.error(
-                    f"connection to {addr} broke up. [ACTIVE CONNECTIONS] {threading.active_count() - 2} | {e}"
+                    f"connection to {addr} broke up. [ACTIVE CONNECTIONS] {threading.active_count() - 2} | {e}\n" +
+                    traceback.format_exc()
                  )
                 connected = False
 

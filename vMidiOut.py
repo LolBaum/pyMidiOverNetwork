@@ -3,9 +3,10 @@ from rtmidi.randomout import RandomOut
 from time import sleep
 from Networking.server import Server
 import logging
+import traceback
 
 
-def midi_from_string(self, string):
+def midi_from_string(string):
     content = string.split(",")
     if len(content) != 3:
         logging.error("message length has wrong format, msg=" + string)
@@ -56,9 +57,16 @@ class MidiOutServer:
         self.midiOut.sendMessage(msg)
 
     def handle_message(self, msg):
-        print(msg)
-        print(midi_from_string(msg))
-        #self.send_message(msg)
+        try:
+            print(msg)
+            m=midi_from_string(msg)
+            print(m)
+            self.send_message(m)
+        except ValueError as e:
+            logging.error(
+                f"Could not parse message: {msg}\n{traceback.format_exc()}"
+            )
+
 
 
 
