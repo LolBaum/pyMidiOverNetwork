@@ -8,11 +8,11 @@ import logging
 from logging import config
 
 config.fileConfig("configs/loggingInfo.conf")
-
+MAX_DATA_LENGTH = 8064  # TODO add header_len
+MAX_CONNECTIONS = 30
 
 class Server:
-    MAX_DATA_LENGTH = 8064  # TODO add header_len
-    MAX_CONNECTIONS = 30
+
 
     def __init__(self, ip="127.0.0.1", port=5050, callback=None):
         self.ip = ip
