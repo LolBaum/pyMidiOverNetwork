@@ -2,6 +2,7 @@ import rtmidi
 from time import sleep
 from Networking.client import Client
 import logging
+from config import get_server_ip
 
 def print_message(midi):
     print(midi)
@@ -23,7 +24,7 @@ def midi_to_string(midi):
 
 class MidiIn:
     def __init__(self, midi_port=0):
-        self.client = Client()
+        self.client = Client(get_server_ip())
         self.midiin = rtmidi.RtMidiIn()
         self.ports = range(self.midiin.getPortCount())
         self.midiPort = midi_port

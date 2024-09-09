@@ -2,7 +2,7 @@ import logging
 
 
 def get_server_ip():
-    file = "configs/networking.conf"
+    file = "configs/network.conf"
     ip = "127.0.0.1"
     try:
         with open(file) as f:

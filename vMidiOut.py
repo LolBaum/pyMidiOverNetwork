@@ -4,7 +4,7 @@ from time import sleep
 from Networking.server import Server
 import logging
 import traceback
-
+from config import get_server_ip
 
 def midi_from_string(string):
     content = string.split(",")
@@ -31,7 +31,7 @@ def midi_from_string(string):
 
 class MidiOutServer:
     def __init__(self, portName):
-        self.server = Server(ip="10.10.5.49", callback=self.handle_message)
+        self.server = Server(ip=get_server_ip(), callback=self.handle_message)
 
         # Name of the MIDI port in use
         self.portName = portName
