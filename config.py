@@ -6,7 +6,9 @@ def get_server_ip():
     ip = "127.0.0.1"
     try:
         with open(file) as f:
-            ip = f.readline()
+            ip = f.readline().strip()
     except OSError:
         logging.warning(f"couldn't read file {file} - using IP {ip}")
     return ip
+
+# TODO: use format like yaml for config
