@@ -2,11 +2,13 @@
 WIP python scripts to send midi streams over network
 
 ---
-Istall loop MIDI https://www.tobias-erichsen.de/software/loopmidi.html
+Install loop MIDI https://www.tobias-erichsen.de/software/loopmidi.html
 
 add new loopback port [PortName]
 
 select [PortName] in DAW (e.g. REAPER) as MIDI input device
+
+Create config file `configs/network.conf` and add the server IP.
 
 
 ---

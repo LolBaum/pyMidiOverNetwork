@@ -1,5 +1,3 @@
-import logging
-
 import rtmidi
 from time import sleep
 from Networking.client import Client
