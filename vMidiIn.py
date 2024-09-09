@@ -46,6 +46,7 @@ class MidiIn:
             print('NO MIDI INPUT PORTS!')
 
     def handle_message(self, msg):
+        msg += ';'
         print_message(midi_to_string(msg))
         self.client.send(midi_to_string(msg))
 

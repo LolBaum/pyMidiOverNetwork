@@ -21,10 +21,10 @@ def midi_from_string(string):
         midi = rtmidi.MidiMessage.noteOn(1, midi_value, midi_channel)
     elif midi_type == "OFF":
         midi = rtmidi.MidiMessage.noteOff(1, midi_value)
-    if midi_type == "CONTROLLER":
+    elif midi_type == "CONTROLLER":
         midi = rtmidi.MidiMessage.controllerEvent(1, midi_value, midi_channel)
     else:
-        logging.error("message type not recognized: msg=" + string)
+        logging.error(f"message type ({midi_type}) not recognized: msg={string}")
 
     return midi
 
@@ -58,10 +58,14 @@ class MidiOutServer:
 
     def handle_message(self, msg):
         try:
-            print(msg)
-            m=midi_from_string(msg)
-            print(m)
-            self.send_message(m)
+            msg_list = msg.split(';')
+            for m in msg_list:
+                if m == '':
+                    continue
+                print(m)
+                m_midi = midi_from_string(m)
+                print(m_midi)
+                self.send_message(m_midi)
         except ValueError as e:
             logging.error(
                 f"Could not parse message: {msg}\n{traceback.format_exc()}"
